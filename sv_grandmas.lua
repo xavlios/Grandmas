@@ -25,7 +25,7 @@ AddEventHandler("grandma:buttonSelected", function(name, button)
 			xPlayer.removeMoney(mymoney)
 			
 		else
-			
+			print("Not enough cash")
 		end
 	
 end)
