@@ -49,15 +49,16 @@ local crplayer = GetEntityCoords(rplayer,true)
 
 	if( GetDistanceBetweenCoords( crplayer, 1392.0, 3600.99, 38.94 ) < 5)then
 		print("Im in the area")
-		--if IsEntityDead(ped) then
+		if IsEntityDead(ped) then
+            print("player is dead")
 			if( plyDst < 2)then
 				--check for cash
 				TriggerServerEvent("grandma:buttonSelected",name, button)
 			    --TriggerServerEvent('grandma:revive', GetPlayerServerId(ped))
 			end
-		--else
-		--	print("player not dead")
-		--end
+		else
+			print("player not dead")
+	   end
 	end
 end)
 
@@ -65,4 +66,37 @@ end)
 RegisterNetEvent("grandma:buttonSelected")
 AddEventHandler("grandma:buttonSelected", function()
 	TriggerServerEvent('grandma:revive', GetPlayerServerId(ped))
+end)
+
+
+
+RegisterNetEvent('xav_grandmas:revive')
+AddEventHandler('xav_grandmas:revive', function()
+    local playerPed = PlayerPedId()
+    local coords = GetEntityCoords(playerPed)
+
+    TriggerServerEvent('esx_ambulancejob:setDeathStatus', false)
+
+    Citizen.CreateThread(function()
+        DoScreenFadeOut(800)
+
+        while not IsScreenFadedOut() do
+            Citizen.Wait(50)
+        end
+
+        local formattedCoords = {
+            x = ESX.Math.Round(coords.x, 1),
+            y = ESX.Math.Round(coords.y, 1),
+            z = ESX.Math.Round(coords.z, 1)
+        }
+
+        ESX.SetPlayerData('lastPosition', formattedCoords)
+
+        TriggerServerEvent('esx:updateLastPosition', formattedCoords)
+
+        RespawnPed(playerPed, formattedCoords, 0.0)
+
+        StopScreenEffect('DeathFailOut')
+        DoScreenFadeIn(800)
+    end)
 end)

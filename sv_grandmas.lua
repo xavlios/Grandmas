@@ -8,7 +8,8 @@ AddEventHandler('grandma:revive', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 		print("testing")
-		TriggerClientEvent('esx_ambulancejob:revive', target)
+		TriggerClientEvent('xav_grandmas:revive', target)
+		
 	
 end)
 
