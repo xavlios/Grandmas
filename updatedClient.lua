@@ -1,9 +1,9 @@
 ESX = nil
 local PlayerData = {}
 local reviveCost = 5000
-local grandmasLocationx = 0.0  -- coords as a float ex 112.3
-local grandmasLocationy = 0.0 -- coords as a float ex 112.3
-local grandmasLocationz = 0.0 -- coords as a float ex 112.3
+local grandmasLocationx = 1392.0  -- coords as a float ex 112.3
+local grandmasLocationy = 3600.99 -- coords as a float ex 112.3
+local grandmasLocationz = 38.94 -- coords as a float ex 112.3
 
 local HasAlreadyEnteredMarker = false
 local LastZone                = nil
