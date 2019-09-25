@@ -1,22 +1,37 @@
 ESX = nil
-local playersHealing = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-RegisterServerEvent('grandma:revive')
-AddEventHandler('grandma:revive', function(target)
+
+
+RegisterServerEvent('grandma:heal')
+AddEventHandler('grandma:heal', function(target, type)
 	local xPlayer = ESX.GetPlayerFromId(source)
-		--print("testing")
-		TriggerClientEvent('esx_ambulancejob:revive', target)
-		return
+		print("We in here. target is " .. target)
+		TriggerClientEvent('esx_grandmas:heal', target, type)
+	
 end)
 
 
-RegisterServerEvent("grandma:buttonSelected")
-AddEventHandler("grandma:buttonSelected", function(name, button)
+RegisterServerEvent('esx_grandma:revive')
+AddEventHandler('esx_grandma:revive', function(target)
+	local xPlayer = ESX.GetPlayerFromId(source)
+		TriggerClientEvent('esx_ambulancejob:revive', target)
+end)
 
-	local _source = source
-	local xPlayer = ESX.GetPlayerFromId(_source)
-	mymoney = 1000
-			xPlayer.removeMoney(mymoney)
+
+RegisterServerEvent("esx_grandmas:money")
+AddEventHandler("esx_grandmas:money", function()
+        local xPlayer = ESX.GetPlayerFromId(source)
+		local money = xPlayer.getMoney()
+
+		print("Player has " .. money .. " on them.")
+	TriggerClientEvent("esx_grandmas:amount",source, money)
+end)
+
+RegisterServerEvent("esx_grandmas:moneyTake")
+AddEventHandler("esx_grandmas:moneyTake", function(money)
+        local xPlayer = ESX.GetPlayerFromId(source)
+		xPlayer.removeMoney(money)
+		print("Player now has " .. money .. " on them.")
 end)
