@@ -1,4 +1,5 @@
 ESX = nil
+local GrandmasFee = 4000
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
@@ -7,7 +8,7 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 RegisterServerEvent('grandma:heal')
 AddEventHandler('grandma:heal', function(target, type)
 	local xPlayer = ESX.GetPlayerFromId(source)
-		print("We in here. target is " .. target)
+		--print("We in here. target is " .. target)
 		TriggerClientEvent('esx_grandmas:heal', target, type)
 	
 end)
@@ -25,13 +26,12 @@ AddEventHandler("esx_grandmas:money", function()
         local xPlayer = ESX.GetPlayerFromId(source)
 		local money = xPlayer.getMoney()
 
-		print("Player has " .. money .. " on them.")
+		--print("Player has " .. money .. " on them.")
 	TriggerClientEvent("esx_grandmas:amount",source, money)
 end)
 
 RegisterServerEvent("esx_grandmas:moneyTake")
-AddEventHandler("esx_grandmas:moneyTake", function(money)
+AddEventHandler("esx_grandmas:moneyTake", function()
         local xPlayer = ESX.GetPlayerFromId(source)
-		xPlayer.removeMoney(money)
-		print("Player now has " .. money .. " on them.")
+		xPlayer.removeMoney(GrandmasFee)
 end)
