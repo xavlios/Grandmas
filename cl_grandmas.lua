@@ -1,17 +1,11 @@
 ESX = nil
 local PlayerData = {}
-local showcircle = true
+local showCircle = true
 local showBlip = true
 local grandmasLocationx = 1392.0  -- coords as a float ex 112.3
 local grandmasLocationy = 3600.99 -- coords as a float ex 112.3
 local grandmasLocationz = 38.0 -- coords as a float ex 112.3
--- dont touch these values below
--- local HasAlreadyEnteredMarker = false
--- local LastZone                = nil
--- local CurrentAction           = nil
--- local CurrentActionMsg        = ''
--- local CurrentActionData       = {}
--- local amount = 0
+
 
 Citizen.CreateThread(function()
     while ESX == nil do
@@ -109,11 +103,26 @@ end)
 
 -- Display circle
 Citizen.CreateThread(function()
-	while showcircle==true do
+	while showCircle do
 		Citizen.Wait(0)
 		local coords = GetEntityCoords(PlayerPedId())
 		if(1 ~= -1 and GetDistanceBetweenCoords(coords, grandmasLocationx, grandmasLocationy, grandmasLocationz, true) < 100) then
 			DrawMarker(27, grandmasLocationx, grandmasLocationy, grandmasLocationz, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 3.0, 3.0, 3.0, 255, 0, 0, 100, false, true, 2, false, false, false, false)
 		end
+	end
+end)
+
+-- Display blip
+Citizen.CreateThread(function()
+	while showBlip do
+		Citizen.Wait(0)
+		grandmaBlip = AddBlipForCoord(grandmasLocationx, grandmasLocationy, grandmasLocationz)
+		SetBlipSprite(grandmaBlip, 429)
+		SetBlipDisplay(grandmaBlip, 6)
+		SetBlipScale(grandmaBlip, 0.8)
+		SetBlipColour(grandmaBlip, 2)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Grandmas")
+		EndTextCommandSetBlipName(grandmaBlip)
 	end
 end)
